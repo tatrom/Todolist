@@ -1,4 +1,4 @@
-import {FilterValuesType, TodoListType} from "../App";
+import {FilterValuesType, TodoListType} from "../AppWithRedux";
 import {v1} from "uuid";
 
 
@@ -27,7 +27,9 @@ type ActionType =
     | ChangeFilterActionType
     | AddTodolistActionType
     | RemoveTodolistActionType
-export const todoListsReducer = (state: Array<TodoListType>, action: ActionType) => {
+
+let initialState: Array<TodoListType> = []
+export const todoListsReducer = (state: Array<TodoListType> = initialState, action: ActionType) => {
     switch (action.type) {
         case 'CHANGE-TODOLIST-TITLE': {
             const todolist = state.find(tl => tl.id === action.id);
@@ -35,13 +37,17 @@ export const todoListsReducer = (state: Array<TodoListType>, action: ActionType)
                 // если нашёлся - изменим ему заголовок
                 todolist.title = action.title;
             }
+            debugger
             return [...state]
         }
         case 'CHANGE-FILTER': {
-            const todoList = state.find(tl => tl.id === action.todoListID)
-            if (todoList)
-                todoList.filter = action.value
-            return {...state}
+            const todolist = state.find(tl => tl.id === action.todoListID);
+            if (todolist) {
+                // если нашёлся - изменим ему заголовок
+                debugger
+                todolist.filter = action.value;
+            }
+            return [...state];
         }
         case 'ADD-TODOLIST-TYPE': {
             const newTodolist: TodoListType = {
@@ -56,7 +62,7 @@ export const todoListsReducer = (state: Array<TodoListType>, action: ActionType)
             return copyState
         }
         default:
-            throw new Error("I don't understand this type")
+            return state
     }
 }
 
@@ -72,6 +78,6 @@ export const AddTodolistAC = (title: string): AddTodolistActionType => {
     return {type: 'ADD-TODOLIST-TYPE', title, id: v1()}
 }
 
-export const RemoveTodolistAC = (todolistID: string):RemoveTodolistActionType => {
+export const RemoveTodolistAC = (todolistID: string): RemoveTodolistActionType => {
     return {type: "REMOVE-TODOLIST", todolistID}
 }
