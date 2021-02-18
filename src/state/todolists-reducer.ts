@@ -37,14 +37,12 @@ export const todoListsReducer = (state: Array<TodoListType> = initialState, acti
                 // если нашёлся - изменим ему заголовок
                 todolist.title = action.title;
             }
-            debugger
             return [...state]
         }
         case 'CHANGE-FILTER': {
             const todolist = state.find(tl => tl.id === action.todoListID);
             if (todolist) {
                 // если нашёлся - изменим ему заголовок
-                debugger
                 todolist.filter = action.value;
             }
             return [...state];

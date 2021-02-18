@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import './App.css';
 import {Todolist} from './Todolist';
 import {AddItemForm} from "./AdditemForm";
@@ -17,27 +17,22 @@ export type TodoListType = {
 }
 
 function App() {
-
+    console.log("I am an App")
     const todolists = useSelector<AppRootStateType, Array<TodoListType>>(store => store.todolists)
     const dispatch = useDispatch()
-
-    function changeTodolistTitle(title: string, todoListID: string) {
-        debugger
+    const changeTodolistTitle = useCallback((title: string, todoListID: string) => {
         dispatch(ChangeTodolistTitleAC(todoListID, title))
-    }
-
-    function changeFilter(value: FilterValuesType, todoListID: string) {
+    }, [dispatch])
+    const changeFilter = useCallback((value: FilterValuesType, todoListID: string) => {
         dispatch(ChangeFilterAC(value, todoListID))
 
-    }
-
-    function removeTodoList(todoListID: string) {
+    }, [dispatch])
+    const removeTodoList = useCallback((todoListID: string) => {
         dispatch(RemoveTodolistAC(todoListID))
-    }
-
-    function addTodoList(todoListTitle: string) {
+    }, [dispatch])
+    const addTodoList = useCallback((todoListTitle: string) => {
         dispatch(AddTodolistAC(todoListTitle))
-    }
+    }, [dispatch])
 
     return (
         <div className="App">
