@@ -21,6 +21,8 @@
     "react-redux": "^7.2.2",
     "react-scripts": "3.4.1",
     "redux": "^4.0.5",
+    "sb": "^6.1.20",
+    "storybook": "^6.1.20",
     "typescript": "~3.7.2"
   },
   "scripts": {
@@ -29,7 +31,11 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "yarn run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "storybook": "start-storybook -p 9009 -s public",
+    "build-storybook": "build-storybook -s public",
+    "jest:integration": "jest -c integration/jest.config.js",
+    "test:integration": "start-server-and-test storybook http-get://localhost:9009 jest:integration"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -47,6 +53,20 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^3.1.0"
+    "@storybook/addon-actions": "^6.1.20",
+    "@storybook/addon-essentials": "^6.1.20",
+    "@storybook/addon-links": "^6.1.20",
+    "@storybook/node-logger": "^6.1.20",
+    "@storybook/preset-create-react-app": "^3.1.6",
+    "@storybook/preset-typescript": "^3.0.0",
+    "@storybook/react": "^6.1.20",
+    "@types/storybook__react": "^5.2.1",
+    "fork-ts-checker-webpack-plugin": "^6.1.0",
+    "gh-pages": "^3.1.0",
+    "jest-image-snapshot": "^4.3.0",
+    "jest-puppeteer": "^4.4.0",
+    "puppeteer": "^7.1.0",
+    "start-server-and-test": "^1.12.0",
+    "ts-loader": "^8.0.17"
   }
 }
