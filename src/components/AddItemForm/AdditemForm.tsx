@@ -4,13 +4,12 @@ import {ControlPoint} from "@material-ui/icons";
 
 export type AddItemFormPropsType = {
     addItem: (title: string) => void
-
+    disabled?: boolean
 }
 
 export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
     const [newTaskTitle, setNewTaskTitle] = useState<string>("");
     const [error, setError] = useState<string | null>(null);
-    console.log('Add item form')
     const addItem = () => {
         const itemTitle = newTaskTitle.trim()
         if (itemTitle) {
@@ -38,10 +37,12 @@ export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
                        onKeyPress={onKeyPressHandler}
                        error={!!error}
                        helperText={error}
+                       disabled={props.disabled}
             />
             <IconButton onClick={addItem} color={'primary'}>
-                <ControlPoint/>!
+                <ControlPoint/>
             </IconButton>
         </div>
     )
 })
+// a4f2a95a-2f27-43ae-ad15-e63a35ca7922
