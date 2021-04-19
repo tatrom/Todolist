@@ -38,6 +38,23 @@ export const todolistsAPI = {
     }
 }
 
+export const authAPI = {
+    login(email: string, password: string, rememberMe: boolean) {
+        return instance.post<CommonResponseType<{userId: number}>>('/auth/login', {email, password, rememberMe})
+    },
+    me() {
+        return instance.get<CommonResponseType>('/auth/me')
+    },
+    logout() {
+        return instance.delete<CommonResponseType>('/auth/login')
+    }
+}
+
+
+
+
+
+
 
 //types
 export type TodolistType = {
@@ -49,7 +66,6 @@ export type TodolistType = {
 export type CommonResponseType<D = {}> = {
     data: D
     messages: Array<string>
-    fieldsErrors: []
     resultCode: number
 }
 

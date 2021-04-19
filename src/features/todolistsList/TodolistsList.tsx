@@ -4,7 +4,7 @@ import {
     changeTodolistFilterAC, createTodolistTC,
     fetchTodolistsTC,
     FilterValuesType, removeTodolistTC,
-    TodolistDomainType, updateTodolistTitle
+    TodolistDomainType, updateTodolistTitleTC
 } from "./todolists-reducer";
 import React, {useCallback, useEffect} from "react";
 import {addTaskTC, removeTaskTC, updateTaskTC} from "./tasks-reducer";
@@ -13,17 +13,24 @@ import {Grid, Paper} from "@material-ui/core";
 import {AddItemForm} from "../../components/AddItemForm/AdditemForm";
 import {Todolist} from "./Todolist/Todolist";
 import {TasksStateType} from "../../app/App";
+import {Redirect} from "react-router-dom";
 
-export const TodolistsList = () => {
+type PropsType = {
+    demo?: boolean
+}
 
+export const TodolistsList = React.memo(({demo = false}: PropsType) => {
     const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
     const dispatch = useDispatch();
-
     useEffect(() => {
+        if (demo || !isLoggedIn) {
+            return;
+        }
         const thunk = fetchTodolistsTC()
         dispatch(thunk)
-    }, [dispatch])
+    }, [isLoggedIn, dispatch, demo])
 
     const removeTask = useCallback(function (id: string, todolistId: string) {
         dispatch(removeTaskTC(todolistId, id))
@@ -42,7 +49,7 @@ export const TodolistsList = () => {
     }, [dispatch]);
 
     const changeFilter = useCallback(function (value: FilterValuesType, todolistId: string) {
-        const action = changeTodolistFilterAC(todolistId, value);
+        const action = changeTodolistFilterAC({id:todolistId,filter: value});
         dispatch(action);
     }, [dispatch]);
 
@@ -51,13 +58,16 @@ export const TodolistsList = () => {
     }, [dispatch]);
 
     const changeTodolistTitle = useCallback((id: string, title: string) => {
-        dispatch(updateTodolistTitle(id, title))
+        dispatch(updateTodolistTitleTC(id, title))
     }, [dispatch])
 
     const addTodolist = useCallback((title: string) => {
         dispatch(createTodolistTC(title))
     }, [dispatch]);
 
+    if (!isLoggedIn) {
+        return <Redirect to={'/login'}/>
+    }
     return <>
         <Grid container style={{padding: "20px"}}>
             <AddItemForm addItem={addTodolist}/>
@@ -66,14 +76,13 @@ export const TodolistsList = () => {
             {
                 todolists.map(tl => {
                     let allTodolistTasks = tasks[tl.id];
-                    let tasksForTodolist = allTodolistTasks;
 
                     return <Grid item key={tl.id}>
                         <Paper style={{padding: "10px"}}>
                             <Todolist
                                 id={tl.id}
                                 title={tl.title}
-                                tasks={tasksForTodolist}
+                                tasks={allTodolistTasks}
                                 removeTask={removeTask}
                                 changeFilter={changeFilter}
                                 addTask={addTask}
@@ -91,3 +100,4 @@ export const TodolistsList = () => {
         </Grid>
     </>
 }
+)
