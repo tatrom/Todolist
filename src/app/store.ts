@@ -17,7 +17,7 @@ const rootReducer = combineReducers({
 // непосредственно создаём store
 export const store = configureStore({
     reducer: rootReducer,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(thunk)
+    middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(thunk)
 })
 // определить автоматически тип всего объекта состояния
 export type AppRootStateType = ReturnType<typeof rootReducer>

@@ -16,7 +16,7 @@ import {AppRootStateType} from './store';
 import {TaskType,} from "../api/todolists-api";
 import {TodolistsList} from "../features/todolistsList/TodolistsList";
 import {ErrorSnackbar} from "../components/errorSnackbar/ErrorSnackBar";
-import {Route, Switch, Redirect} from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 import {Login} from "../features/Login/Login";
 import {initializeAppTC} from "./app-reducer";
 import {logoutTC} from "../features/Login/authReducer";

@@ -69,8 +69,8 @@ export const {removeTaskAC} = slice.actions
 export const {addTaskAC} = slice.actions
 export const {updateTaskAC} = slice.actions
 export const {setTasksAC} = slice.actions
-//thunks
 
+//thunks
 export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch) => {
     dispatch(setAppStatusAC({status: 'loading'}))
     todolistsAPI.getTasks(todolistId)
